@@ -29,22 +29,32 @@ class User
    */
   private $email;
   
-  /*public function __construct(string $first_name,string $last_name,string date_birthday,string email)
+  public function __construct(string $first_name,string $last_name,string $date_of_birth,
+                              string $email,string $password)
     {
         
         if (strlen($first_name) > 32 ) {
-            throw new InvalidArgumentException("first_name only max 32 chars allowed");
+            throw new \InvalidArgumentException("first_name only max 32 chars allowed");
         }
 		if (strlen($last_name) > 32 ) {
-            throw new InvalidArgumentException("last_name only max 32 chars allowed");
+            throw new \InvalidArgumentException("last_name only max 32 chars allowed");
         }
-		if (strlen($email) > 32 ) {
-            throw new InvalidArgumentException("last_name only max 32 chars allowed");
-        }
+		
+        if (strlen($email) > 254 ) {
+            throw new \InvalidArgumentException("email only max 254 chars allowed");
+        }    
+        if (strlen($password) > 32 ) {
+            throw new \InvalidArgumentException("email only max 32 chars allowed");
+        }  
+		
+		if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new \InvalidArgumentException("email is not valid format");
+        }    
         $this->first_name = $first_name;
         $this->first_name = $first_name;
-		$this->email = $email;
-    }*/
+        $this->email = $email;
+        $this->password = $password;
+    }
   
   public function getFirstName(){
         return $this->first_name;
@@ -95,6 +105,7 @@ class User
   
   public function setDateOfBirth(string $date_of_birth)
   {
+  
     $minAge=strtotime("-13 YEAR");
     $entrantAge= strtotime($date_of_birth);
   
@@ -104,4 +115,5 @@ class User
   
   
 }
+
 }
